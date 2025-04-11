@@ -23,10 +23,10 @@ contract Source is AccessControl {
 
 	function deposit(address _token, address _recipient, uint256 _amount ) public {
 		//YOUR CODE HERE
-		require(approved[_token], "Token not registered");
+		require(approved[_token], "Token hasn't been registered");
 		
 		bool success = ERC20(_token).transferFrom(msg.sender, address(this), _amount);
-		require(success, "Transfer failed");
+		require(success, "Transfer failed.");
 		
 		emit Deposit(_token, _recipient, _amount);
 	}
@@ -34,14 +34,14 @@ contract Source is AccessControl {
 	function withdraw(address _token, address _recipient, uint256 _amount ) onlyRole(WARDEN_ROLE) public {
 		//YOUR CODE HERE
 		bool success = ERC20(_token).transfer(_recipient, _amount);
-		require(success, "Transfer failed");
+		require(success, "Transfer failed.");
 		
 		emit Withdrawal(_token, _recipient, _amount);
 	}
 
 	function registerToken(address _token) onlyRole(ADMIN_ROLE) public {
 		//YOUR CODE HERE
-		require(!approved[_token], "Token already registered");
+		require(!approved[_token], "Token has been already registered.");
 		
 		approved[_token] = true;
 		tokens.push(_token);
